@@ -400,32 +400,9 @@ def add_gui_item(url, item_details, display_options, folder=True, default_sort=F
         list_item_name += " (cc)"
 
     if item_details.item_type == "Program":
-        start_time = datetime_from_string(item_details.program_start_date)
-        end_time = datetime_from_string(item_details.program_end_date)
-
-        duration = (end_time - start_time).total_seconds()
-        time_done = (datetime.now() - start_time).total_seconds()
-        percentage_done = (float(time_done) / float(duration)) * 100.0
-        capped_percentage = int(percentage_done)
-
-        start_time_string = start_time.strftime("%H:%M")
-        end_time_string = end_time.strftime("%H:%M")
-
-        item_details.duration = int(duration)
-        item_details.resume_time = int(time_done)
-
-        list_item_name = (item_details.program_channel_name +
-                          " - " + list_item_name +
-                          " - " + start_time_string + " to " + end_time_string +
-                          " (" + str(int(percentage_done)) + "%)")
-
-        time_info = "Start : " + start_time_string + "\n"
-        time_info += "End : " + end_time_string + "\n"
-        time_info += "Complete : " + str(int(percentage_done)) + "%\n"
-        if item_details.plot:
-            item_details.plot = time_info + item_details.plot
-        else:
-            item_details.plot = time_info
+        if item_details.program_channel_name:
+            list_item_name = '{} - {}'.format(
+                item_details.program_channel_name, list_item_name)
 
     if kodi_version() > 17:
         list_item = xbmcgui.ListItem(list_item_name, offscreen=True)
