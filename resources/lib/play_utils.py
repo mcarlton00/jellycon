@@ -732,9 +732,12 @@ def set_list_item_props(item_id, list_item, result, server, extra_props, title):
         track = result.get("IndexNumber")
         album = result.get("Album")
 
-        if hasattr(list_item, 'getMusicInfoTag'):
-            # Kodi 20 and newer
+        if hasattr(list_item, "getMusicInfoTag"):
             music_tag = list_item.getMusicInfoTag()
+        else:
+            music_tag = False
+
+        if hasattr(music_tag, "setTitle"):
             music_tag.setTitle(title)
             music_tag.setMediaType(mediatype)
             music_tag.setAlbum(album or "Unknown Album")
@@ -761,9 +764,12 @@ def set_list_item_props(item_id, list_item, result, server, extra_props, title):
         tv_show_name = result.get("SeriesName", "")
         plot = result.get("Overview", "")
 
-        if hasattr(list_item, 'getVideoInfoTag'):
-            # Kodi 20 and newer
+        if hasattr(list_item, "getVideoInfoTag"):
             video_tag = list_item.getVideoInfoTag()
+        else:
+            video_tag = False
+
+        if hasattr(video_tag, "setTitle"):
             video_tag.setTitle(title)
             video_tag.setMediaType(mediatype)
             video_tag.setPlot(plot)

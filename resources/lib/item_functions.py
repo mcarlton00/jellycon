@@ -449,7 +449,7 @@ def add_gui_item(url, item_details, display_options, folder=True, default_sort=F
     item_properties["IsPlayable"] = 'false'
 
     if not folder and is_video:
-        if video_tag:
+        if hasattr(video_tag, "setResumePoint"):
             video_tag.setResumePoint(
                 item_details.resume_time,
                 item_details.duration
@@ -470,7 +470,7 @@ def add_gui_item(url, item_details, display_options, folder=True, default_sort=F
     # Stores info for legacy metadata
     info_labels = {}
 
-    if video_tag:
+    if hasattr(video_tag, "setTitle"):
         # Kodi 20 and newer
         video_tag.setTitle(list_item_name)
         if item_details.cast:
@@ -540,7 +540,7 @@ def add_gui_item(url, item_details, display_options, folder=True, default_sort=F
     elif item_type == 'musicvideo':
         mediatype = 'musicvideo'
 
-    if video_tag:
+    if hasattr(list_item, "setMediaType"):
         # Kodi 20 and newer
         video_tag.setMediaType(mediatype)
 
